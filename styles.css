@@ -76,7 +76,7 @@ main {
     transition: 0.15s ease-in;
 }
 
-.btn.operator {
+.btn.operator:not(.percent) {
     background-color: hsl(216, 5%, 20%);
 }
 
@@ -88,7 +88,7 @@ main {
     background-color: hsl(0, 0%, 10%);
 }
 
-.btn.operator:hover {
+.btn.operator:not(.percent):hover {
     background-color: hsl(216, 5%, 26%);
 }
 
