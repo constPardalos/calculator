@@ -1,5 +1,5 @@
-// VARIABLES
-// ===============
+// GLOBAL VARIABLES
+// ========================
 let num1 = 0,
     num2 = 0,
     operator,
@@ -12,15 +12,20 @@ const displayValue = document.querySelector('.value'),
     operators = Array.from(document.querySelectorAll('.operator')),
     equal = document.querySelector('.equal'),
     clear = document.querySelector('.clear'),
-    del = document.querySelector('.delete');
+    del = document.querySelector('.delete'),
+    calcDisplay = document.querySelector('.screen'),
+    maxValueLength = 21;
+
+displayValue.style.fontSize = '100%';
 
 // EVENT LISTENERS
+// ========================
 digits.forEach(digit => digit.addEventListener('click', function(e) {
     updateDisplayValue(e.target.name);
 }));
 
 operators.forEach(operatorKey => operatorKey.addEventListener('click', function(e) {
-    if (displayOperation.textContent && !operatorClicked) {
+    if (displayOperation.textContent && !displayOperation.textContent.includes('=') && !operatorClicked) {
         operate(operator, num1, num2);
         setOperation(e.target.dataset.value);
     } else {
@@ -34,7 +39,21 @@ equal.addEventListener('click', () => {
     }
 })
 
-clear.addEventListener('click', () => {
+clear.addEventListener('click', clearAll);
+
+del.addEventListener('click', () => {
+    if (displayValue.textContent.includes('zero') || displayValue.textContent.includes('Infinity')) {
+        clearAll();
+    } else {
+        displayValue.textContent = displayValue.textContent.slice(0, -1);
+        increaseFontSize();
+    }
+})
+
+// FUNCTIONS
+// ========================
+
+function clearAll() {
     num1 = 0;
     num2 = 0;
     operator ='';
@@ -42,13 +61,9 @@ clear.addEventListener('click', () => {
     equalClicked = false;
     displayValue.textContent = '0';
     displayOperation.textContent = '';
-})
+    displayValue.style.fontSize = '100%';
+}
 
-del.addEventListener('click', () => {
-    displayValue.textContent = displayValue.textContent.slice(0, -1);
-})
-
-// FUNCTIONS
 function add(num1,num2) {
     return num1 + num2;
 }
@@ -75,6 +90,12 @@ function percent(num1,num2) {
 
 // Update the operation in the calculator screen and set the operator
 function setOperation(symbol) {
+
+    if (displayValue.textContent.includes('zero') ||
+        displayValue.textContent.includes('Infinity')) {
+        return;
+    }
+
     num1 = displayValue.textContent;
     operator = symbol;
     displayOperation.textContent = `${num1} ${operator}`;
@@ -105,15 +126,27 @@ function operate(operator, num1, num2) {
         result = percent(num1,num2);
     }
 
+    result = result.toString();
+    if (result.includes('.') && result.split(".")[1].length > 10) {
+        result = parseFloat(result.slice(0, 10 - result.split(".")[1].length));
+    }
+
     displayOperation.textContent = currentOperation + ` ${num2} =`;
-    displayValue.textContent = result;
+    displayValue.textContent = result.toString();
     equalClicked = true;
+
+    displayValue.style.fontSize = '100%';
+    decreaseFontSize();
 }
 
 // Update the value/result in the calculator screen
 function updateDisplayValue(value) {
     const currentValue = displayValue.textContent;
     let newValue;
+
+    if (currentValue.length >= maxValueLength) {
+        return;
+    }
 
     if (equalClicked) {
         displayOperation.textContent = '';
@@ -152,4 +185,18 @@ function updateDisplayValue(value) {
     displayValue.textContent = newValue;
     operatorClicked = false;
     equalClicked = false;
+
+    decreaseFontSize();
+}
+
+function decreaseFontSize() {
+    while ((displayValue.offsetWidth >= calcDisplay.offsetWidth - 40) && displayValue.style.fontSize !== '0%') {
+        displayValue.style.fontSize = `${parseInt(displayValue.style.fontSize.slice(0, -1)) -5}%`;
+    }
+}
+
+function increaseFontSize() {
+    while ((displayValue.offsetWidth <= calcDisplay.offsetWidth - 40) && displayValue.style.fontSize !== '100%') {
+        displayValue.style.fontSize = `${parseInt(displayValue.style.fontSize.slice(0, -1)) +5}%`;
+    }
 }

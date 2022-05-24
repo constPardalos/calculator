@@ -25,6 +25,7 @@ main {
     color: white;
     display: flex;
     flex-flow: column wrap;
+    font-size: 34px;
     align-items: flex-end;
     justify-content: flex-end;
     margin-bottom: 20px;
@@ -35,15 +36,14 @@ main {
 }
 
 .operation {
-    font-size: 20px;
+    font-size: 50%;
     margin-bottom: 10px;
-    width: 100%;
 }
 
 .value {
-    font-size: 28px;
+    font-size: 100%;
     font-weight: 500;
-    width: 100%;
+    min-height: 42px;
 }
 
 .buttons {
