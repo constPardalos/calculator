@@ -15,6 +15,7 @@ const displayValue = document.querySelector('.value'),
     clear = document.querySelector('.clear'),
     del = document.querySelector('.delete'),
     calcDisplay = document.querySelector('.screen'),
+    lightSwitch = document.querySelector('.light-switch'),
     maxValueLength = 21;
 
 displayValue.style.fontSize = '100%';
@@ -22,22 +23,22 @@ displayValue.style.fontSize = '100%';
 // EVENT LISTENERS
 // ========================
 
-window.addEventListener('keydown', function(e) {
+window.addEventListener('keydown', function (e) {
     const key = document.querySelector(`button[data-key="${e.key}"]`);
     if (key) {
         key.click();
     }
 });
 
-buttons.forEach(button => button.addEventListener('click', function(e) {
+buttons.forEach(button => button.addEventListener('click', function (e) {
     styleOnClick(e.currentTarget);
 }));
 
-digits.forEach(digit => digit.addEventListener('click', function(e) {
+digits.forEach(digit => digit.addEventListener('click', function (e) {
     updateDisplayValue(e.target.dataset.key);
 }));
 
-operators.forEach(operatorKey => operatorKey.addEventListener('click', function(e) {
+operators.forEach(operatorKey => operatorKey.addEventListener('click', function (e) {
     if (displayOperation.textContent && !displayOperation.textContent.includes('=') && !operatorClicked) {
         operate(operator, num1, num2);
         setOperation(e.target.textContent);
@@ -63,13 +64,17 @@ del.addEventListener('click', () => {
     }
 })
 
+lightSwitch.addEventListener('change', () => {
+    document.querySelector('body').classList.toggle('light');
+})
+
 // FUNCTIONS
 // ========================
 
 function clearAll() {
     num1 = 0;
     num2 = 0;
-    operator ='';
+    operator = '';
     operatorClicked = false;
     equalClicked = false;
     displayValue.textContent = '0';
@@ -77,19 +82,19 @@ function clearAll() {
     displayValue.style.fontSize = '100%';
 }
 
-function add(num1,num2) {
+function add(num1, num2) {
     return num1 + num2;
 }
 
-function subtract(num1,num2) {
+function subtract(num1, num2) {
     return num1 - num2;
 }
 
-function multiply(num1,num2) {
+function multiply(num1, num2) {
     return num1 * num2;
 }
 
-function divide(num1,num2) {
+function divide(num1, num2) {
     if (num2 === 0) {
         return 'Cannot divide by zero';
     } else {
@@ -97,7 +102,7 @@ function divide(num1,num2) {
     }
 }
 
-function percent(num1,num2) {
+function percent(num1, num2) {
     return (num1 / 100) * num2;
 }
 
@@ -129,15 +134,15 @@ function operate(operator, num1, num2) {
     let result;
 
     if (operator === '+') {
-        result = add(num1,num2);
+        result = add(num1, num2);
     } else if (operator === '-') {
-        result = subtract(num1,num2);
+        result = subtract(num1, num2);
     } else if (operator === '×') {
-        result = multiply(num1,num2);
+        result = multiply(num1, num2);
     } else if (operator === '÷') {
-        result = divide(num1,num2);
+        result = divide(num1, num2);
     } else if (operator === '%') {
-        result = percent(num1,num2);
+        result = percent(num1, num2);
     }
 
     result = result.toString();
@@ -174,9 +179,7 @@ function updateDisplayValue(value) {
         } else {
             newValue = '-' + currentValue;
         }
-    }
-
-    else if (value === '.') {
+    } else if (value === '.') {
         if (operatorClicked || equalClicked || currentValue.length === 0 || currentValue === '0') {
             newValue = '0.';
         } else if (currentValue.includes('.')) {
@@ -184,9 +187,7 @@ function updateDisplayValue(value) {
         } else {
             newValue = currentValue + '.';
         }
-    }
-
-    else {
+    } else {
         if ((currentValue.length === 1 && currentValue.charAt(0) === '0') || operatorClicked || equalClicked) {
             newValue = value;
         } else if (currentValue.length === 2 && currentValue.charAt(0) === '-' && currentValue.charAt(1) === '0') {
@@ -205,17 +206,19 @@ function updateDisplayValue(value) {
 
 function decreaseFontSize() {
     while ((displayValue.offsetWidth >= calcDisplay.offsetWidth) && displayValue.style.fontSize !== '0%') {
-        displayValue.style.fontSize = `${parseInt(displayValue.style.fontSize.slice(0, -1)) -5}%`;
+        displayValue.style.fontSize = `${parseInt(displayValue.style.fontSize.slice(0, -1)) - 5}%`;
     }
 }
 
 function increaseFontSize() {
     while ((displayValue.offsetWidth <= calcDisplay.offsetWidth) && displayValue.style.fontSize !== '100%') {
-        displayValue.style.fontSize = `${parseInt(displayValue.style.fontSize.slice(0, -1)) +5}%`;
+        displayValue.style.fontSize = `${parseInt(displayValue.style.fontSize.slice(0, -1)) + 5}%`;
     }
 }
 
 function styleOnClick(target) {
     target.classList.add('clicked');
-    setTimeout(() => {target.classList.remove('clicked')}, 100);
+    setTimeout(() => {
+        target.classList.remove('clicked')
+    }, 100);
 }
