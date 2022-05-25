@@ -8,6 +8,7 @@ let num1 = 0,
 
 const displayValue = document.querySelector('.value'),
     displayOperation = document.querySelector('.operation'),
+    buttons = Array.from(document.querySelectorAll('.btn')),
     digits = Array.from(document.querySelectorAll('.digit')),
     operators = Array.from(document.querySelectorAll('.operator')),
     equal = document.querySelector('.equal'),
@@ -20,16 +21,28 @@ displayValue.style.fontSize = '100%';
 
 // EVENT LISTENERS
 // ========================
+
+window.addEventListener('keydown', function(e) {
+    const key = document.querySelector(`button[data-key="${e.key}"]`);
+    if (key) {
+        key.click();
+    }
+});
+
+buttons.forEach(button => button.addEventListener('click', function(e) {
+    styleOnClick(e.currentTarget);
+}));
+
 digits.forEach(digit => digit.addEventListener('click', function(e) {
-    updateDisplayValue(e.target.name);
+    updateDisplayValue(e.target.dataset.key);
 }));
 
 operators.forEach(operatorKey => operatorKey.addEventListener('click', function(e) {
     if (displayOperation.textContent && !displayOperation.textContent.includes('=') && !operatorClicked) {
         operate(operator, num1, num2);
-        setOperation(e.target.dataset.value);
+        setOperation(e.target.textContent);
     } else {
-        setOperation(e.target.dataset.value);
+        setOperation(e.target.textContent);
     }
 }));
 
@@ -92,12 +105,13 @@ function percent(num1,num2) {
 function setOperation(symbol) {
 
     if (displayValue.textContent.includes('zero') ||
-        displayValue.textContent.includes('Infinity')) {
+        displayValue.textContent.includes('Infinity') ||
+        displayValue.textContent === '') {
         return;
     }
 
     num1 = displayValue.textContent;
-    operator = symbol;
+    operator = symbol.toString();
     displayOperation.textContent = `${num1} ${operator}`;
     operatorClicked = true;
     equalClicked = false;
@@ -118,17 +132,17 @@ function operate(operator, num1, num2) {
         result = add(num1,num2);
     } else if (operator === '-') {
         result = subtract(num1,num2);
-    } else if (operator === '*') {
+    } else if (operator === '×') {
         result = multiply(num1,num2);
-    } else if (operator === '/') {
+    } else if (operator === '÷') {
         result = divide(num1,num2);
     } else if (operator === '%') {
         result = percent(num1,num2);
     }
 
     result = result.toString();
-    if (result.includes('.') && result.split(".")[1].length > 10) {
-        result = parseFloat(result.slice(0, 10 - result.split(".")[1].length));
+    if (result.includes('.') && result.split(".")[1].length > 5) {
+        result = parseFloat(result.slice(0, 5 - result.split(".")[1].length));
     }
 
     displayOperation.textContent = currentOperation + ` ${num2} =`;
@@ -152,7 +166,7 @@ function updateDisplayValue(value) {
         displayOperation.textContent = '';
     }
 
-    if (value === 'sign') {
+    if (value === 'Insert') {
         if (operatorClicked || equalClicked) {
             newValue = '-';
         } else if (currentValue.charAt(0) === '-') {
@@ -162,7 +176,7 @@ function updateDisplayValue(value) {
         }
     }
 
-    else if (value === 'decimal') {
+    else if (value === '.') {
         if (operatorClicked || equalClicked || currentValue.length === 0 || currentValue === '0') {
             newValue = '0.';
         } else if (currentValue.includes('.')) {
@@ -190,13 +204,18 @@ function updateDisplayValue(value) {
 }
 
 function decreaseFontSize() {
-    while ((displayValue.offsetWidth >= calcDisplay.offsetWidth - 40) && displayValue.style.fontSize !== '0%') {
+    while ((displayValue.offsetWidth >= calcDisplay.offsetWidth) && displayValue.style.fontSize !== '0%') {
         displayValue.style.fontSize = `${parseInt(displayValue.style.fontSize.slice(0, -1)) -5}%`;
     }
 }
 
 function increaseFontSize() {
-    while ((displayValue.offsetWidth <= calcDisplay.offsetWidth - 40) && displayValue.style.fontSize !== '100%') {
+    while ((displayValue.offsetWidth <= calcDisplay.offsetWidth) && displayValue.style.fontSize !== '100%') {
         displayValue.style.fontSize = `${parseInt(displayValue.style.fontSize.slice(0, -1)) +5}%`;
     }
+}
+
+function styleOnClick(target) {
+    target.classList.add('clicked');
+    setTimeout(() => {target.classList.remove('clicked')}, 100);
 }

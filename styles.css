@@ -1,35 +1,43 @@
 body {
     background-color: black;
     font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 main {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: calc(100vh - 80px);
+}
+
+::-moz-selection { /* Code for Firefox */
+    background: rgba(59, 59, 58, 0.9);
+}
+
+::selection {
+    background: rgba(59, 59, 58, 0.9);
 }
 
 .calculator {
-    background-color: #090909;
+    background-color: rgba(33, 32, 30, 0.8);
     border-radius: 10px;
-    margin: 0;
-    padding: 10px;
+    box-shadow: 0 0 1px 1px #313333;
+    margin: 10px;
+    padding: 5px 5px 2px 5px;
     max-width: 350px;
     width: 100%;
 }
 
 .screen {
-    background-color: #2b2b2c;
-    border-radius: 10px;
     color: white;
     display: flex;
     flex-flow: column wrap;
-    font-size: 34px;
+    font-size: 36px;
     align-items: flex-end;
     justify-content: flex-end;
-    margin-bottom: 20px;
-    padding: 20px;
+    margin: 20px 10px 40px 10px;
     overflow: hidden;
     height: 150px;
     text-align: right;
@@ -37,7 +45,9 @@ main {
 
 .operation {
     font-size: 50%;
+    font-weight: 300;
     margin-bottom: 10px;
+    opacity: 0.7;
 }
 
 .value {
@@ -53,49 +63,101 @@ main {
 
 .btn-row {
     display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
+    gap: 3px;
+    margin-bottom: 3px;
     width: 100%;
 }
 
 .btn {
     aspect-ratio: 1/1;
     box-sizing: border-box;
-    background-color: transparent;
+    background-color: rgba(59, 59, 58, 1);
     border: none;
-    border-radius: 50%;
+    border-radius: 5px;
     color: #fff;
     display: flex;
     flex: 1 1 25%;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 300;
     outline: none;
     cursor: pointer;
-    transition: 0.15s ease-in;
+    user-select: none;
+    transition: all 0.05s;
 }
 
-.btn.operator:not(.percent) {
-    background-color: hsl(216, 5%, 20%);
+.btn svg {
+    display: inline;
+    fill: #fff;
+}
+
+.btn.operator,
+.btn.action {
+    background-color: rgba(49, 51, 51, 1);
 }
 
 .btn.equal {
-    background-color: hsl(350, 62%, 46%);
+    background-color: rgba(239, 201, 50, 1);
 }
 
 .btn:hover {
-    background-color: hsl(0, 0%, 10%);
+    background-color: rgba(49, 51, 51, 1);
 }
 
-.btn.operator:not(.percent):hover {
-    background-color: hsl(216, 5%, 26%);
+.btn.operator:hover,
+.btn.action:hover {
+    background-color: rgba(59, 59, 58, 1);
 }
 
 .btn.equal:hover {
-    background-color: hsl(350, 62%, 54%);
+    background-color: rgba(239, 201, 50, 0.9);
 }
 
-.btn.multiply {
-    transform: rotate(45deg);
+.btn.clicked {
+    background-color: rgba(59, 59, 58, 0.7);
+    transition: 0s;
+}
+
+.btn.operator.clicked,
+.btn.action.clicked {
+    background-color: rgba(49, 51, 51, 0.7);
+    transition: 0s;
+}
+
+.btn.equal.clicked {
+    background-color: rgba(239, 201, 50, 0.7);
+    transition: 0s;
+}
+
+.credits {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    height: 80px;
+}
+
+.credits a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #fff;
+    text-decoration: none;
+    width: 24px;
+    height: 24px;
+}
+
+.credits a svg {
+    flex-shrink: 0;
+    fill: #fff;
+    max-width: 24px;
+    height: 24px;
+    transition: all 0.2s linear;
+}
+
+.credits a:hover svg {
+    fill: #efc932;
+    transform: scale(1.1);
 }

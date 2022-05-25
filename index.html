@@ -7,7 +7,8 @@
     <title>Calculator</title>
     <link href="styles.css" rel="stylesheet">
     <script defer src="scripts.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.png">
 </head>
 <body>
 
@@ -19,40 +20,56 @@
         </div>
         <div class="buttons">
             <div class="btn-row">
-                <button class="btn clear" name="clear">AC</button>
-                <button class="btn delete" name="delete">DEL</button>
-                <button class="btn operator percent" name="percent" data-value="%">%</button>
-                <button class="btn operator" name="divide" data-value="/">/</button>
+                <button class="btn action clear" data-key="Delete">C</button>
+                <button class="btn action delete" data-key="Backspace">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11.225 15.65 13.825 13.05 16.425 15.65 17.475 14.6 14.875 12 17.475 9.4 16.425 8.35 13.825 10.95 11.225 8.35 10.175 9.4 12.775 12 10.175 14.6ZM3.55 12 7.525 6.4Q7.825 5.975 8.275 5.737Q8.725 5.5 9.25 5.5H18.625Q19.375 5.5 19.913 6.025Q20.45 6.55 20.45 7.3V16.7Q20.45 17.45 19.913 17.975Q19.375 18.5 18.625 18.5H9.25Q8.725 18.5 8.275 18.25Q7.825 18 7.525 17.6ZM5.4 12 8.775 16.75Q8.85 16.85 8.975 16.925Q9.1 17 9.25 17H18.625Q18.75 17 18.85 16.9Q18.95 16.8 18.95 16.7V7.3Q18.95 7.2 18.85 7.1Q18.75 7 18.625 7H9.25Q9.1 7 8.975 7.075Q8.85 7.15 8.775 7.25ZM18.95 12V7.25Q18.95 7.15 18.95 7.075Q18.95 7 18.95 7Q18.95 7 18.95 7.1Q18.95 7.2 18.95 7.3V16.7Q18.95 16.8 18.95 16.9Q18.95 17 18.95 17Q18.95 17 18.95 16.925Q18.95 16.85 18.95 16.75Z"/></svg>
+                </button>
+                <button class="btn operator percent" data-key="%">%</button>
+                <button class="btn operator" data-key="/">÷</button>
             </div>
             <div class="btn-row">
-                <button class="btn digit" name="7">7</button>
-                <button class="btn digit" name="8">8</button>
-                <button class="btn digit" name="9">9</button>
-                <button class="btn operator multiply" name="multiply" data-value="*">+</button>
+                <button class="btn digit" data-key="7">7</button>
+                <button class="btn digit" data-key="8">8</button>
+                <button class="btn digit" data-key="9">9</button>
+                <button class="btn operator" data-key="*">×</button>
             </div>
             <div class="btn-row">
-                <button class="btn digit" name="4">4</button>
-                <button class="btn digit" name="5">5</button>
-                <button class="btn digit" name="6">6</button>
-                <button class="btn operator" name="subtract" data-value="-">-</button>
+                <button class="btn digit" data-key="4">4</button>
+                <button class="btn digit" data-key="5">5</button>
+                <button class="btn digit" data-key="6">6</button>
+                <button class="btn operator" data-key="-">-</button>
             </div>
             <div class="btn-row">
-                <button class="btn digit" name="1">1</button>
-                <button class="btn digit" name="2">2</button>
-                <button class="btn digit" name="3">3</button>
-                <button class="btn operator" name="add" data-value="+">+</button>
+                <button class="btn digit" data-key="1">1</button>
+                <button class="btn digit" data-key="2">2</button>
+                <button class="btn digit" data-key="3">3</button>
+                <button class="btn operator" data-key="+">+</button>
             </div>
             <div class="btn-row">
-                <button class="btn digit" name="sign">+/-</button>
-                <button class="btn digit" name="0">0</button>
-                <button class="btn digit" name="decimal">.</button>
-                <button class="btn equal" name="equal">=</button>
+                <button class="btn digit" data-key="Insert">+/-</button>
+                <button class="btn digit" data-key="0">0</button>
+                <button class="btn digit" data-key=".">.</button>
+                <button class="btn equal" data-key="Enter">=</button>
             </div>
         </div>
     </div>
 </main>
 
-<footer></footer>
+<footer>
+    <div class="credits">
+        <a href="https://github.com/theColorDude" target="_blank">
+            <svg viewBox="0 0 32.58 31.77" xmlns="http://www.w3.org/2000/svg">
+                <g data-name="Layer 2" id="Layer_2">
+                    <g data-name="Layer 1" id="Layer_1-2">
+                        <path class="cls-1"
+                              d="M16.29,0a16.29,16.29,0,0,0-5.15,31.75c.82.15,1.11-.36,1.11-.79s0-1.41,0-2.77C7.7,29.18,6.74,26,6.74,26a4.36,4.36,0,0,0-1.81-2.39c-1.47-1,.12-1,.12-1a3.43,3.43,0,0,1,2.49,1.68,3.48,3.48,0,0,0,4.74,1.36,3.46,3.46,0,0,1,1-2.18c-3.62-.41-7.42-1.81-7.42-8a6.3,6.3,0,0,1,1.67-4.37,5.94,5.94,0,0,1,.16-4.31s1.37-.44,4.48,1.67a15.41,15.41,0,0,1,8.16,0c3.11-2.11,4.47-1.67,4.47-1.67A5.91,5.91,0,0,1,25,11.07a6.3,6.3,0,0,1,1.67,4.37c0,6.26-3.81,7.63-7.44,8a3.85,3.85,0,0,1,1.11,3c0,2.18,0,3.94,0,4.47s.29.94,1.12.78A16.29,16.29,0,0,0,16.29,0Z"/>
+                    </g>
+                </g>
+            </svg>
+            <span>theColorDude</span>
+        </a>
+    </div>
+</footer>
 
 </body>
 </html>
