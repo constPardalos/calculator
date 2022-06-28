@@ -16,7 +16,8 @@ const displayValue = document.querySelector('.value'),
     del = document.querySelector('.delete'),
     calcDisplay = document.querySelector('.screen'),
     lightSwitch = document.querySelector('.light-switch'),
-    maxValueLength = 21;
+    maxValueLength = 21,
+    valueRegex = /[^0-9-.]/;
 
 displayValue.style.fontSize = '100%';
 
@@ -56,7 +57,7 @@ equal.addEventListener('click', () => {
 clear.addEventListener('click', clearAll);
 
 del.addEventListener('click', () => {
-    if (displayValue.textContent.includes('zero') || displayValue.textContent.includes('Infinity')) {
+    if (valueRegex.test(displayValue.textContent)) {
         clearAll();
     } else {
         displayValue.textContent = displayValue.textContent.slice(0, -1);
@@ -109,8 +110,8 @@ function percent(num1, num2) {
 // Update the operation in the calculator screen and set the operator
 function setOperation(symbol) {
 
-    if (displayValue.textContent.includes('zero') ||
-        displayValue.textContent.includes('Infinity') ||
+    if (valueRegex.test(displayValue.textContent) ||
+        displayValue.textContent === '-' ||
         displayValue.textContent === '') {
         return;
     }
@@ -124,7 +125,10 @@ function setOperation(symbol) {
 
 //
 function operate(operator, num1, num2) {
-    if (!displayOperation.textContent || displayValue.textContent.includes('zero')) {
+    if (!displayOperation.textContent ||
+        !displayValue.textContent ||
+        displayValue.textContent === '-' ||
+        valueRegex.test(displayValue.textContent)) {
         return;
     }
 
@@ -163,7 +167,7 @@ function updateDisplayValue(value) {
     const currentValue = displayValue.textContent;
     let newValue;
 
-    if (currentValue.length >= maxValueLength) {
+    if (valueRegex.test(currentValue) || currentValue.length >= maxValueLength) {
         return;
     }
 
@@ -182,6 +186,8 @@ function updateDisplayValue(value) {
     } else if (value === '.') {
         if (operatorClicked || equalClicked || currentValue.length === 0 || currentValue === '0') {
             newValue = '0.';
+        } else if (currentValue === '-') {
+            newValue = '-0.';
         } else if (currentValue.includes('.')) {
             newValue = currentValue;
         } else {
